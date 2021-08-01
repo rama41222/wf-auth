@@ -1,12 +1,21 @@
-import { Controller, Get, Post, Query } from '@nestjs/common';
+import {
+  Controller,
+  forwardRef,
+  Get,
+  Inject,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { User } from './user.schema';
 import { UserService } from './user.service';
 import { AllUsers } from './user.types';
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
-
+  constructor(
+    @Inject(forwardRef(() => UserService))
+    private readonly userService: UserService,
+  ) {}
   @Get()
   users(
     @Query('skip') skip = '1',
